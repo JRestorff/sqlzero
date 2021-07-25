@@ -13,10 +13,7 @@ const App = () => {
 
   useEffect(() => {
     (async () => {
-      const Sql = await initSqlJs({
-        locateFile: () => `/sql-wasm.wasm`,
-      });
-      setDb(new Sql.Database());
+      setDb(await getDb());
     })();
   }, []);
 
@@ -46,6 +43,26 @@ const App = () => {
       </button>
     </>
   );
+};
+
+const getDb = async () => {
+  const Sql = await initSqlJs({
+    locateFile: () => `/sql-wasm.wasm`,
+  });
+  const db = new Sql.Database();
+  db.exec(`
+    create table employees (
+      name text,
+      salary real
+    ) ;
+    insert into employees values
+      ('John', 530),
+      ('Thomas', 470),
+      ('Matt', 760),
+      ('Maria', 339),
+      ('Anne', 467) ;
+  `);
+  return db;
 };
 
 export default App;
