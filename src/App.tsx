@@ -4,6 +4,7 @@ import initSqlJs, { Database } from "sql.js";
 
 import "ace-builds/src-noconflict/mode-sql";
 import "ace-builds/src-noconflict/theme-monokai";
+import { Button, Container, Heading } from "@chakra-ui/react";
 
 const App = () => {
   const [db, setDb] = useState<Database | null>(null);
@@ -18,8 +19,10 @@ const App = () => {
   }, []);
 
   return (
-    <>
-      <h1>Welcome to sqlzero!</h1>
+    <Container>
+      <Heading mt="2rem" mb="2rem">
+        Welcome to sqlzero!
+      </Heading>
       <AceEditor
         value={query}
         mode="sql"
@@ -34,13 +37,13 @@ const App = () => {
           tabSize: 4,
         }}
       />
-      <button
-        style={{ marginTop: "0.5rem" }}
+      <Button
+        mt="2rem"
         onClick={() => alert(db?.exec(query)[0].values)}
       >
         Execute query
-      </button>
-    </>
+      </Button>
+    </Container>
   );
 };
 
